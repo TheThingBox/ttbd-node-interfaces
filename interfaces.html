@@ -1,0 +1,32 @@
+<script type="text/x-red" data-template-name="interfaces">
+  <div class="form-row">
+    <label for="node-input-name"><i class="icon-tag"></i> <span data-i18n="interfaces.name"></span></label>
+    <input type="text" id="node-input-name" data-i18n="[placeholder]interfaces.name">
+  </div>
+</script>
+
+<script type="text/x-red" data-help-name="interfaces">
+	<p>Write conf in <code>/etc/network/interfaces</code> and /etc/dhcpcd.conf for set IP static or dynamic.</p>
+  <p><code>msg.iface</code> can be `eth0` or `wlan0`<p>
+  <p><code>msg.iface_type</code> can be `static` or `dynamic`<p>
+  <p>If you set `msg.iface_type` to `static`, you have to set `msg.static_ip`, `msg.gateway` and 'msg.subnet_mask'</p>
+  <p>If you set `msg.iface_type` to `static` but 'msg.subnet_mask' is not set, `255.255.255.0` will be use</p>
+  <br/>
+  <p>Return an array of errors on `msg.payload`, so if `msg.payload` is an empty array, configuration is succeed</p>
+</script>
+
+<script type="text/javascript">
+  RED.nodes.registerType('interfaces',{
+    color:"#fff",
+    category: 'system',
+    defaults: {
+      name: {value:""},
+    },
+    inputs:1,
+    outputs:1,
+    icon: "template.png",
+    label: function() {
+      return this.name||"interfaces";
+    },
+  });
+</script>

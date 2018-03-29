@@ -1,0 +1,20 @@
+{
+  "name": "ttbd-node-interfaces",
+  "version": "0.0.1",
+  "description": "This node get the detected wifi.",
+  "node-red": {
+    "nodes": {
+      "interfaces": "interfaces.js"
+    }
+  },
+  "keywords": [
+    "node-red",
+    "interfaces"
+  ],
+  "dependencies": {
+    "ttbd-exec": "TheThingBox/ttbd-exec#f9d47d8",
+    "mustache": "2.3.0"
+  },
+  "author": "http://www.digitalairways.com/",
+  "license": "http://www.wtfpl.net"
+}
