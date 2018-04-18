@@ -27,7 +27,7 @@ module.exports = function(RED) {
           let iface_type = msg.iface_type.toLowerCase()
           if(['dynamic', 'static'].indexOf(iface_type) != -1){
             if(iface_type === 'dynamic' || (iface_type === 'static' && msg.hasOwnProperty('static_ip') && isIP(msg.static_ip) && msg.hasOwnProperty('gateway')) && isIP(msg.gateway)){
-              let scriptBase = fs.readFileSync(path.join('scripts', ((iface_type==='dynamic')?'set_dhcp.sh':'set_static.sh')))
+              let scriptBase = fs.readFileSync(path.join(__dirname, 'scripts', ((iface_type==='dynamic')?'set_dhcp.sh':'set_static.sh')), {encoding: 'utf8'})
               let toInject = {
                 net_env_interface: msg.iface
               }
