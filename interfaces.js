@@ -19,6 +19,7 @@ module.exports = function(RED) {
   function InterfacesNode(n) {
     RED.nodes.createNode(this,n);
     this.name = n.name;
+    var node = this;
 
     this.on("input", function(msg) {
       var err = []
