@@ -143,6 +143,7 @@ function setDhcp(){
   ensureDefaultDhcpcdConf
   cp /etc/dhcpcd.base.conf /etc/dhcpcd.conf
   echo "$PREVIOUS_CONF" >> /etc/dhcpcd.conf
+  echo "" >> /etc/dhcpcd.conf
 }
 
 checkEnv
