@@ -89,5 +89,5 @@ module.exports = function(RED) {
       }
     });
   }
-  RED.nodes.registerType("interfaces",InterfacesNode);
+  RED.nodes.registerType("interfaces", InterfacesNode);
 }

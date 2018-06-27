@@ -138,8 +138,7 @@ function setDhcp(){
       exit
     fi
   fi
-
-  PREVIOUS_CONF=`grep -Pzo "# TTB START DEFINITION [^($NET_ENV_INTERFACE_UPPER)][\s\S]*?\n[\s\S]*?\n# TTB END DEFINITION [^($NET_ENV_INTERFACE_UPPER)][\s\S]*?\n" /etc/dhcpcd.conf`
+  PREVIOUS_CONF=`grep -Pzo '# TTB START DEFINITION (?!'"$NET_ENV_INTERFACE_UPPER"')[\s\S]*?\n[\s\S]*?\n# TTB END DEFINITION (?!'"$NET_ENV_INTERFACE_UPPER"')[\s\S]*?\n' /etc/dhcpcd.conf`
   ensureDefaultDhcpcdConf
   cp /etc/dhcpcd.base.conf /etc/dhcpcd.conf
   echo "$PREVIOUS_CONF" >> /etc/dhcpcd.conf
