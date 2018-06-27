@@ -145,4 +145,3 @@ init
 unsetAccesPoint
 rollback_dnsmasq
 rollback_ip_forwarding
-restart_services
