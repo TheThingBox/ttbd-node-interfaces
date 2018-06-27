@@ -111,8 +111,6 @@ function unsetAccesPoint(){
   echo "" >> /etc/dhcpcd.conf
 
   allow_interface_wlan
-
-  service networking restart
 }
 
 function rollback_dnsmasq(){
@@ -130,8 +128,6 @@ function rollback_ip_forwarding(){
     sed -i 's/^net\.ipv4\.ip\_forward\=1/# net\.ipv4\.ip\_forward\=1/' /etc/sysctl.conf
   fi
 
-  echo 0 > /proc/sys/net/ipv4/ip_forward
-
   comment="digitalairwaysAPRules"
 
   iptables-save | grep -v "$comment" | iptables-restore
@@ -145,3 +141,5 @@ init
 unsetAccesPoint
 rollback_dnsmasq
 rollback_ip_forwarding
+
+service networking restart
