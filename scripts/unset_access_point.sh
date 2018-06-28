@@ -12,14 +12,6 @@ function init(){
   systemctl disable dnsmasq > /dev/null 2>&1
 }
 
-function allow_interface_wlan(){
-  DENYWLAN=`sed -n '/^denyinterfaces wlan0/=' /etc/dhcpcd.conf`
-  if test "" != "$DENYWLAN"
-  then
-    sed -i 's/^denyinterfaces wlan0/# denyinterfaces wlan0/' /etc/dhcpcd.conf
-  fi
-}
-
 function ensureDefaultDhcpcdConf(){
   if test ! -f /etc/dhcpcd.base.conf
   then
@@ -92,8 +84,6 @@ function unsetAccesPoint(){
   cp /etc/dhcpcd.base.conf /etc/dhcpcd.conf
   echo "$PREVIOUS_CONF" >> /etc/dhcpcd.conf
   echo "" >> /etc/dhcpcd.conf
-
-  allow_interface_wlan
 }
 
 function rollback_dnsmasq(){

@@ -35,20 +35,6 @@ function restart_services(){
   service dnsmasq restart
 }
 
-function deny_interface_wlan(){
-  DENYWLAN=`sed -n '/^denyinterfaces wlan0/=' /etc/dhcpcd.conf`
-  DENYWLAN_COMMENT=`sed -n '/^#[ ]*denyinterfaces wlan0/=' /etc/dhcpcd.conf`
-  if test "" = "$DENYWLAN"
-  then
-    if test "" = "$DENYWLAN_COMMENT"
-    then
-      echo "denyinterfaces wlan0" >> /etc/dhcpcd.conf
-    else
-      sed -i 's/^#[ ]*denyinterfaces wlan0/denyinterfaces wlan0/' /etc/dhcpcd.conf
-    fi
-  fi
-}
-
 function ensureDefaultDhcpcdConf(){
   if test ! -f /etc/dhcpcd.base.conf
   then
@@ -129,10 +115,9 @@ function setAccesPoint(){
   echo "static ip_address=192.168.61.1/24" >> /etc/dhcpcd.conf
   echo "static routers=192.168.61.0" >> /etc/dhcpcd.conf
   echo "static domain_name_servers=192.168.61.0 8.8.8.8" >> /etc/dhcpcd.conf
+  echo "denyinterfaces wlan0" >> /etc/dhcpcd.conf
   echo "# TTB END DEFINITION ACCESS_POINT" >> /etc/dhcpcd.conf
   echo "" >> /etc/dhcpcd.conf
-
-  deny_interface_wlan
 
   ip addr flush dev wlan0
 }
