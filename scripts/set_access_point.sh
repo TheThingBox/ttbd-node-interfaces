@@ -8,10 +8,10 @@ NET_ENV_INTERFACE_UPPER=`echo "$NET_ENV_INTERFACE" | tr '[:lower:]' '[:upper:]'`
 
 function checkEnv(){
   local badConf=""
-  local leftWrap="{{{"
-  local rigthWrap="}}}"
+  local leftWrap="{""{""{"
+  local rigthWrap="}""}""}"
   local test1="ssid_id"
-  if test "$leftWrap$test1$rigthWrap" = "$SSID_ID"
+  if [ "$leftWrap$test1$rigthWrap" = "$SSID_ID" ] || [ "" = "$SSID_ID" ]
   then
     SSID_ID='AP'
   fi
@@ -119,7 +119,7 @@ function setAccesPoint(){
   then
     unlink /etc/network/interfaces.d/$NET_ENV_INTERFACE_LOWER
   fi
-  
+
   PREVIOUS_CONF=`grep -Pzo '# TTB START DEFINITION (?!'"$NET_ENV_INTERFACE_UPPER"'|ACCESS_POINT)[\s\S]*?\n[\s\S]*?\n# TTB END DEFINITION (?!'"$NET_ENV_INTERFACE_UPPER"'|ACCESS_POINT)[\s\S]*?\n' /etc/dhcpcd.conf`
   ensureDefaultDhcpcdConf
   cp /etc/dhcpcd.base.conf /etc/dhcpcd.conf

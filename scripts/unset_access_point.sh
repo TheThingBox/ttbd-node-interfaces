@@ -5,23 +5,6 @@ NET_ENV_INTERFACE="wlan0"
 NET_ENV_INTERFACE_LOWER=`echo "$NET_ENV_INTERFACE" | tr '[:upper:]' '[:lower:]'`
 NET_ENV_INTERFACE_UPPER=`echo "$NET_ENV_INTERFACE" | tr '[:lower:]' '[:upper:]'`
 
-function checkEnv(){
-  local badConf=""
-  local leftWrap="{{{"
-  local rigthWrap="}}}"
-  local test1="net_env_interface"
-  if test "$leftWrap$test1$rigthWrap" = "$NET_ENV_INTERFACE"
-  then
-    badConf="$badConf NET_ENV_INTERFACE not set\n"
-  fi
-
-  if test ! "" = "$badConf"
-  then
-    echo -e "$badConf"
-    exit
-  fi
-}
-
 function init(){
   service hostapd stop > /dev/null 2>&1
   service dnsmasq stop > /dev/null 2>&1
@@ -140,7 +123,6 @@ function rollback_ip_forwarding(){
   ip6tables-save >/etc/iptables/rules.v6
 }
 
-checkEnv
 init
 unsetAccesPoint
 rollback_dnsmasq

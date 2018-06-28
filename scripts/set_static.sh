@@ -27,11 +27,11 @@ function valid_ip(){
 function checkEnv(){
   local badConf=""
 
-  local leftWrap="{{{"
-  local rigthWrap="}}}"
+  local leftWrap="{""{""{"
+  local rigthWrap="}""}""}"
   local test1="net_env_interface"
 
-  if test "$leftWrap$test1$rigthWrap" = "$NET_ENV_INTERFACE"
+  if [ "$leftWrap$test1$rigthWrap" = "$NET_ENV_INTERFACE" ] || [ "" = "$NET_ENV_INTERFACE" ]
   then
     badConf="$badConf NET_ENV_INTERFACE not set\n"
   fi
