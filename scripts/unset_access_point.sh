@@ -94,7 +94,7 @@ function rollback_dnsmasq(){
 }
 
 function rollback_ip_forwarding(){
-  IPFORWARDING_COMMENT=`sed -n '/^#[ ]*net\.ipv4\.ip\_forward\=1/=' /etc/sysctl.conf`
+  IPFORWARDING_COMMENT=`sed -n '/^net\.ipv4\.ip\_forward\=1/=' /etc/sysctl.conf`
 
   if test "" != "$IPFORWARDING_COMMENT"
   then
