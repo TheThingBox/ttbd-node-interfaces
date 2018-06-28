@@ -135,9 +135,6 @@ function setAccesPoint(){
   deny_interface_wlan
 
   ip addr flush dev wlan0
-  service networking restart
-  ifdown wlan0 > /dev/null 2>&1
-  ifup wlan0
 }
 
 function configure_hostapd(){
@@ -230,3 +227,5 @@ configure_hostapd
 configure_dnsmasq
 ip_forwarding
 restart_services
+
+service networking restart
