@@ -164,7 +164,6 @@ function configure_dnsmasq(){
   cat <<EOF > /etc/dnsmasq.conf &
 interface=wlan0
 listen-address=192.168.61.1
-bind-interfaces
 server=8.8.8.8
 domain-needed
 bogus-priv
