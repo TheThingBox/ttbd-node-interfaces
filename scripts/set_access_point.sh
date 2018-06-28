@@ -212,5 +212,3 @@ configure_hostapd
 configure_dnsmasq
 ip_forwarding
 restart_services
-
-service networking restart
