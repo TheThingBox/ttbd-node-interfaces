@@ -164,7 +164,6 @@ function configure_dnsmasq(){
   cat <<EOF > /etc/dnsmasq.conf &
 interface=wlan0
 listen-address=192.168.61.1
-server=8.8.8.8
 domain-needed
 bogus-priv
 dhcp-range=192.168.61.10,192.168.61.254,2h
