@@ -12,7 +12,7 @@
     "interfaces"
   ],
   "dependencies": {
-    "ttbd-exec": "TheThingBox/ttbd-exec#8b44afa",
+    "ttbd-exec": "TheThingBox/ttbd-exec#8595423",
     "mustache": "2.3.0"
   },
   "author": "http://www.digitalairways.com/",
