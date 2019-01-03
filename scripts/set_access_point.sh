@@ -70,6 +70,8 @@ option interface_mtu
 require dhcp_server_identifier
 # Generate Stable Private IPv6 Addresses instead of hardware based ones
 slaac private
+nohook wpa_supplicant
+
 EOF
   fi
 }
@@ -101,12 +103,8 @@ EOF
 
 function setAccesPoint(){
   ensureDefaultInterfaceConf
-  if test -L /etc/network/interfaces.d/$NET_ENV_INTERFACE_LOWER
-  then
-    unlink /etc/network/interfaces.d/$NET_ENV_INTERFACE_LOWER
-  fi
 
-  PREVIOUS_CONF=`grep -Pzo '# TTB START DEFINITION (?!'"$NET_ENV_INTERFACE_UPPER"'|ACCESS_POINT)[\s\S]*?\n[\s\S]*?\n# TTB END DEFINITION (?!'"$NET_ENV_INTERFACE_UPPER"'|ACCESS_POINT)[\s\S]*?\n' /etc/dhcpcd.conf`
+  PREVIOUS_CONF=`grep -Pzo '# TTB START DEFINITION (?!ACCESS_POINT)[\s\S]*?\n[\s\S]*?\n# TTB END DEFINITION (?!ACCESS_POINT)[\s\S]*?\n' /etc/dhcpcd.conf`
   ensureDefaultDhcpcdConf
   cp /etc/dhcpcd.base.conf /etc/dhcpcd.conf
   echo "$PREVIOUS_CONF" >> /etc/dhcpcd.conf

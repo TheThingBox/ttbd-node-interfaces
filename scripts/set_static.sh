@@ -98,6 +98,7 @@ require dhcp_server_identifier
 
 # Generate Stable Private IPv6 Addresses instead of hardware based ones
 slaac private
+nohook wpa_supplicant
 
 EOF
   fi
