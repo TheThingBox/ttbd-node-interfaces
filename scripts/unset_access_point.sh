@@ -95,25 +95,8 @@ function rollback_dnsmasq(){
   fi
 }
 
-function rollback_ip_forwarding(){
-  IPFORWARDING_COMMENT=`sed -n '/^net\.ipv4\.ip\_forward\=1/=' /etc/sysctl.conf`
-
-  if test "" != "$IPFORWARDING_COMMENT"
-  then
-    sed -i 's/^net\.ipv4\.ip\_forward\=1/# net\.ipv4\.ip\_forward\=1/' /etc/sysctl.conf
-  fi
-
-  comment="digitalairwaysAPRules"
-
-  iptables-save | grep -v "$comment" | iptables-restore
-
-  iptables-save >/etc/iptables/rules.v4
-  ip6tables-save >/etc/iptables/rules.v6
-}
-
 init
 unsetAccesPoint
 rollback_dnsmasq
-rollback_ip_forwarding
 
 service networking restart

@@ -160,45 +160,28 @@ function configure_dnsmasq(){
 
   echo "" > /etc/dnsmasq.conf
   cat <<EOF > /etc/dnsmasq.conf &
-interface=wlan0
-listen-address=192.168.61.1
-domain-needed
+# Never forward addresses in the non-routed address spaces.
 bogus-priv
-dhcp-range=192.168.61.10,192.168.61.254,2h
+# Add other name servers here, with domain specs if they are for non-public domains.
+server=/local/192.168.61.1
+# Add local-only domains here, queries in these domains are answered from /etc/hosts or DHCP only.
+local=/local/
+# Make all host names resolve to the Raspberry Pi's IP address
+address=/#/192.168.61.1
+# Specify the interface that will listen for DHCP and DNS requests
+interface=wlan0
+# Set the domain for dnsmasq
+domain=local
+# Specify the range of IP addresses the DHCP server will lease out to devices, and the duration of the lease
+dhcp-range=192.168.61.10,192.168.61.254,1h
+# Specify the default route
+dhcp-option=3,192.168.61.1
+# Specify the DNS server address
+dhcp-option=6,192.168.61.1
+# Set the DHCP server to authoritative mode.
+dhcp-authoritative
 
 EOF
-}
-
-function ip_forwarding(){
-  IPFORWARDING_COMMENT=`sed -n '/^#[ ]*net\.ipv4\.ip\_forward\=1/=' /etc/sysctl.conf`
-
-  if test "" = "$IPFORWARDING_COMMENT"
-  then
-    sed -i 's/^#[ ]*net\.ipv4\.ip\_forward\=1/net\.ipv4\.ip\_forward\=1/' /etc/sysctl.conf
-  fi
-
-  IPFORWARDING=`sed -n '/^net\.ipv4\.ip\_forward\=1/=' /etc/sysctl.conf`
-
-  if test "" = "$IPFORWARDING"
-  then
-    echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
-  fi
-
-  echo 1 > /proc/sys/net/ipv4/ip_forward
-
-  comment="digitalairwaysAPRules"
-
-  iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -m comment --comment "$comment"
-  iptables -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT -m comment --comment "$comment"
-  iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT -m comment --comment "$comment"
-
-  iptables -t mangle -N internet -m comment --comment "$comment"
-  iptables -t mangle -A PREROUTING -i wlan0 -p tcp -m tcp --dport 80 -j internet -m comment --comment "$comment"
-  iptables -t mangle -A internet -j MARK --set-mark 99 -m comment --comment "$comment"
-  iptables -t nat -A PREROUTING -i wlan0 -p tcp -m mark --mark 99 -m tcp --dport 80  -j DNAT --to-destination 192.168.61.1 -m comment --comment "$comment"
-
-  iptables-save >/etc/iptables/rules.v4
-  ip6tables-save >/etc/iptables/rules.v6
 }
 
 checkEnv
@@ -206,5 +189,4 @@ init
 setAccesPoint
 configure_hostapd
 configure_dnsmasq
-ip_forwarding
 restart_services
